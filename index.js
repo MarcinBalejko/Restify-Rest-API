@@ -14,7 +14,6 @@ server.listen(config.PORT, () => {
     useUnifiedTopology: true,
     useNewUrlParser: true
   });
-  console.log('Connected to MongoDB!');
 });
 
 const db = mongoose.connection;

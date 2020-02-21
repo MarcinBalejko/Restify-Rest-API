@@ -1,7 +1,7 @@
-const restify = require("restify");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const config = require("./config");
+const restify = require('restify');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const config = require('./config');
 
 dotenv.config();
 
@@ -14,7 +14,14 @@ server.listen(config.PORT, () => {
     useUnifiedTopology: true,
     useNewUrlParser: true
   });
-  console.log("Connected to MongoDB!");
+  console.log('Connected to MongoDB!');
 });
 
 const db = mongoose.connection;
+
+db.on('open', err => console.log(err));
+
+db.once('open', () => {
+  require('./routes/customers')(server);
+  console.log(`Server started on port ${config.PORT}`);
+});

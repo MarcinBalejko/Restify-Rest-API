@@ -4,11 +4,12 @@
   "description": "Restify Rest API ================ Creating a REST API with database integration and token authentication using Node.js with Restify, Mongoose/MongoDB and JWT. ---- This project is based on Traversy Media crash course which you can find below:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
-    "type": "node index.js",
-    "dev": "nodemon index.js"
+    "type": "git",
+    "url": "git+https://github.com/MarcinBalejko/Restify-Rest-API.git"
   },
   "keywords": [],
   "author": "",

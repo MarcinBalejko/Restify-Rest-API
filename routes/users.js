@@ -1,6 +1,7 @@
 const errors = require('restify-errors');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const auth = require('../auth');
 
 module.exports = server => {
   // Register User
@@ -26,5 +27,20 @@ module.exports = server => {
         }
       });
     });
+  });
+
+  // Auth User
+  server.post('/auth', async (req, res, next) => {
+    const { email, password } = req.body;
+
+    try {
+      // Authenticate User
+      const user = await auth.authenticate(email, password);
+      console.log(user);
+      next();
+    } catch (err) {
+      // User unauthorized
+      return next(new errors.UnauthorizedError(err));
+    }
   });
 };

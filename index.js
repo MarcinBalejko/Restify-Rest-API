@@ -12,7 +12,7 @@ const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 
 // Protect Routes
-server.use(rjwt({ secret: config.JWT_SECRET }).unless({ path: ['/auth'] })); // Unless it's auth, it should be protected
+// server.use(rjwt({ secret: config.JWT_SECRET }).unless({ path: ['/auth'] })); // Unless it's auth, it should be protected
 
 server.listen(config.PORT, () => {
   mongoose.connect(process.env.MONGODB_URI, {

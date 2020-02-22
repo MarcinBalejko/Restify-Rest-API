@@ -2,7 +2,7 @@ const errors = require('restify-errors');
 const Customer = require('../models/Customer');
 
 module.exports = server => {
-  // Get customers
+  // Get Customers
   server.get('/customers', async (req, res, next) => {
     try {
       const customers = await Customer.find({});
@@ -22,20 +22,19 @@ module.exports = server => {
     } catch (err) {
       return next(
         new errors.ResourceNotFoundError(
-          `There is no customer with an id of ${req.params.id}`
+          `There is no customer with the id of ${req.params.id}`
         )
       );
     }
   });
 
-  // Add customer
+  // Add Customer
   server.post('/customers', async (req, res, next) => {
     // Check for JSON
     if (!req.is('application/json')) {
       return next(new errors.InvalidContentError("Expects 'application/json'"));
     }
 
-    // Creating customer object
     const { name, email, balance } = req.body;
 
     const customer = new Customer({
@@ -44,13 +43,35 @@ module.exports = server => {
       balance
     });
 
-    // Adding customer to db
     try {
       const newCustomer = await customer.save();
-      res.send(201); // 201 = everything is ok and sth was created
+      res.send(201);
       next();
     } catch (err) {
       return next(new errors.InternalError(err.message));
+    }
+  });
+
+  // Update Customer
+  server.put('/customers/:id', async (req, res, next) => {
+    // Check for JSON
+    if (!req.is('application/json')) {
+      return next(new errors.InvalidContentError("Expects 'application/json'"));
+    }
+
+    try {
+      const customer = await Customer.findOneAndUpdate(
+        { _id: req.params.id },
+        req.body
+      );
+      res.send(200);
+      next();
+    } catch (err) {
+      return next(
+        new errors.ResourceNotFoundError(
+          `There is no customer with the id of ${req.params.id}`
+        )
+      );
     }
   });
 };

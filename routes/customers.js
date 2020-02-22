@@ -78,7 +78,7 @@ module.exports = server => {
   // Delete customer
   server.del('/customers/:id', async (req, res, next) => {
     try {
-      const customer = await Customer.findOneAndRemove({ _id: req.params.id });
+      const customer = await Customer.findOneAndDelete({ _id: req.params.id });
       res.send(204);
       next();
     } catch (err) {
